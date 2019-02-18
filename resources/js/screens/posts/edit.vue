@@ -1,10 +1,12 @@
 <script type="text/ecmascript">
     import FeaturedImageUploader from './FeaturedImageUploader';
+    import ListingImageUploader from './ListingImageUploader';
     import SEOModal from './../../components/SEOModal';
 
     export default {
         components: {
             'featured-image-uploader': FeaturedImageUploader,
+            'listing-image-uploader': ListingImageUploader,
             'seo-modal': SEOModal,
         },
 
@@ -39,6 +41,8 @@
                     author_id: '',
                     featured_image: '',
                     featured_image_caption: '',
+                    listing_image: '',
+                    listing_image_caption: '',
                     body: '',
                     published: false,
                     publish_date: '',
@@ -67,6 +71,11 @@
 
 
             'form.featured_image'() {
+                this.save();
+            },
+
+
+            'form.listing_image'() {
                 this.save();
             },
 
@@ -148,6 +157,8 @@
                     this.form.author_id = data.author_id || '';
                     this.form.featured_image = data.featured_image;
                     this.form.featured_image_caption = data.featured_image_caption;
+                    this.form.listing_image = data.listing_image;
+                    this.form.listing_image_caption = data.listing_image_caption;
                     this.form.meta = {
                         meta_description: data.meta.meta_description || '',
                         opengraph_title: data.meta.opengraph_title || '',
@@ -254,11 +265,27 @@
 
 
             /**
+             * Open the listing image modal.
+             */
+            listingImageModal() {
+                this.$emit('openingListingImageUploader');
+            },
+
+
+            /**
              * Handle the change event of featured images.
              */
             featuredImageChanged({url, caption}) {
                 this.form.featured_image = url;
                 this.form.featured_image_caption = caption;
+            },
+
+            /**
+             * Handle the change event of listing images.
+             */
+            listingImageChanged({url, caption}) {
+                this.form.listing_image = url;
+                this.form.listing_image_caption = caption;
             },
 
 
@@ -375,6 +402,9 @@
                         <a href="#" @click.prevent="featuredImageModal" class="no-underline text-text-color hover:text-primary w-full block py-2 px-4">
                             Featured Image
                         </a>
+                        <a href="#" @click.prevent="listingImageModal" class="no-underline text-text-color hover:text-primary w-full block py-2 px-4">
+                            Listing Image
+                        </a>
                         <a href="#" @click.prevent="seoModal" class="no-underline text-text-color hover:text-primary w-full block py-2 px-4">
                             SEO & Social
                         </a>
@@ -479,6 +509,12 @@
                                  @changed="featuredImageChanged"
                                  :current-image-url="form.featured_image"
                                  :current-caption="form.featured_image_caption"></featured-image-uploader>
+
+        <!-- Featured Image Modal -->
+        <listing-image-uploader :post-id="this.form.id"
+                                 @changed="listingImageChanged"
+                                 :current-image-url="form.listing_image"
+                                 :current-caption="form.listing_image_caption"></listing-image-uploader>
     </div>
 </template>
 
