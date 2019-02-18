@@ -39,8 +39,6 @@ class CreateTables extends Migration
             $table->dateTime('publish_date')->default('2018-10-10 00:00:00');
             $table->string('featured_image')->nullable();
             $table->string('featured_image_caption');
-            $table->string('listing_image')->nullable();
-            $table->string('listing_image_caption');
             $table->uuid('author_id')->index();
             $table->timestamps();
         });
