@@ -15,7 +15,7 @@ class AddListingImageToWinkPosts extends Migration
     {
         Schema::table('wink_posts', function (Blueprint $table) {
             $table->string('listing_image')->nullable();
-            $table->string('listing_image_caption');
+            $table->string('listing_image_caption')->nullable();
         });
     }
 
